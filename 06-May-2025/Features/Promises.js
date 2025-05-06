@@ -1,4 +1,3 @@
-// promiseExample.js
 
 // A function that returns a Promise
 function fetchData(success) {

@@ -6,9 +6,9 @@ function greet(name = "Guest") {
   
   // Call the 'greet' function without passing any argument
   // Since no name is provided, it uses the default value "Guest"
-  greet(); // Output: Hello, Guest
+  greet(); 
   
   // Call the 'greet' function with the argument "Jinendra"
   // The default value is overridden by the provided name
-  greet("Jinendra"); // Output: Hello, Jinendra
+  greet("Jinendra");
   

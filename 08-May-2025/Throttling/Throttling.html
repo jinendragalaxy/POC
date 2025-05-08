@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Throttling Example</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    #output {
+        margin-top: 30px;
+        font-size: 20px; 
+        color: green;
+    }
+</style>
+</head>
+<body>
+    <h1>Throttling BUtton Example</h1>
+    <button id="clickBtn">Click Fast!</button>
+    <p id="output">Wait for result...</p>
+
+    <script>
+        //throttle function
+        function throttle(func, limit) {
+            let inThrottle = false;
+            return function (...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(()=>{
+                        inThrottle = false;
+                    }, limit)
+                }
+            }
+        }
+
+        //Actual function that we want to throttle
+        function hadnleClick() {
+            const output = document.getElementById("output");
+            const currentTime = new Date().toLocaleTimeString();
+            output.textContent = `Clicked at: ${currentTime}`;
+            console.log("Clicked at:", currentTime);
+        }
+
+        //1 call every 2000ms
+        const throttledClick = throttle(hadnleClick, 2000);
+
+        //event listener
+
+        document.getElementById("clickBtn").addEventListener("click", throttledClick)
+    </script>
+    
+</body>
+</html>

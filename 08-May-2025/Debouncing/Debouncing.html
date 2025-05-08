@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debounce Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 50px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Debounced Search Input</h2>
+  <input type="text" id="searchInput" placeholder="Type to search..." />
+  <p id="result"></p>
+
+  <script>
+    // Debounce utility function
+    function debounce(func, delay) {
+      let timer;
+      return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          func.apply(this, args);
+        }, delay);
+      };
+    }
+
+    // API call kiya
+    function fetchSearchResults(query) {
+      const resultElement = document.getElementById("result");
+      resultElement.textContent = `Searching for: ${query}`;
+      console.log("API call made for:", query);
+    }
+
+    // Debounced version of the function
+    const debouncedSearch = debounce(fetchSearchResults, 1000);
+
+    // Attach event listener to input
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", (event) => {
+      const query = event.target.value;
+      debouncedSearch(query);
+    });
+  </script>
+
+</body>
+</html>

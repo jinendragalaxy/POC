@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>Data Table</title>
+<style>
+    body {
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    input[type="text"] {
+        padding: 10px;
+        width: 100%;
+        margin-bottom: 15px;
+        font-size: 16px;
+    }
+    .controls label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+    }
+    input[type="radio"] {
+        margin: 0;
+    }
+</style>    
+</head>
+<body>
+    <h2>Search Names</h2>
+    <input type="text" id="search" placeholder="Search NAmes...">
+
+    <div class="controls">
+        <label>
+            <input type="radio" name="mode" value="instant" checked> Instant
+        </label>
+
+        <label>
+            <input type="radio" name="mode" value="debounce"> Debounce
+        </label>
+
+        <label>
+            <input type="radio" name="mode" value="throttle"> Throttle
+        </label>
+    </div>
+
+    <table class="table table-bordered table-hover mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>First Name</th>
+            </tr>
+        </thead>
+        <tbody id="results"></tbody>
+    </table>
+
+    <!-- Script file -->
+     <script>
+        // first we create array of names
+        const Names = [
+        "Aarav", "Aanya", "Advait", "Ananya", "Arjun", 
+            "Diya", "Ishaan", "Kavya", "Mohammed", "Neha",
+            "Prisha", "Reyansh", "Saanvi", "Shiv", "Vihaan",
+            "Aadhya", "Atharv", "Ira", "Kabir", "Myra",
+            "Pari", "Rudra", "Sara", "Vivaan", "Yash"
+        ]
+
+        // get elements
+        const searchInput = document.getElementById('search')
+        const resultsTable = document.getElementById('results')
+
+        //render names 
+        //we used arrow function in it
+        const renderNames = (namesToShow) => {
+            try {
+                resultsTable.innerHTML = namesToShow.map(name => `
+                    <tr><td>${name}</td></tr>
+                `).join('') || '<tr><td>No matches found</td></tr>';
+            } catch (error) {
+                console.error("Error rendering names:", error);
+            } finally {
+                console.log("Rendering process finished");
+            }
+        };
+
+        //now we are adding filter function so it filter the names accoridng to user search
+        const filterNames = (searchTerm) => {
+            try {
+                if (!searchTerm) {
+                    return renderNames(Names);
+                }
+                const filtered = Names.filter(name =>
+                    name.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                renderNames(filtered);
+            } catch (error) {
+                console.error("Error filtering names:", error);
+            } finally {
+                console.log("Filtering process finished");
+            }
+        };
+
+        //adding deboune to understand its concept
+
+        const debounce = (func, delay) => {
+            let timeout;
+            return (...args) => {
+                try {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func(...args), delay);
+                } catch (error) {
+                    console.error("Error in debounce function:", error);
+                } finally {
+                    console.log("Debounce process finished");
+                }
+            };
+        };
+
+        //adding throttle to also understand its concept
+        const throttle = (func, limit) => {
+            let lastRun = 0;
+            return (...args) => {
+                try {
+                    const now = Date.now();
+                    if (now - lastRun >= limit) {
+                        func(...args);
+                        lastRun = now;
+                    }
+                } catch (error) {
+                    console.error("Error in throttle function:", error);
+                } finally {
+                    console.log("Throttle process finished");
+                }
+            };
+        };
+        //creating versions of filter
+        const debounceFilter = debounce(filterNames, 500);
+        const throttleFilter = throttle(filterNames, 500);
+
+        //now input event
+        searchInput.addEventListener('input', (e) => {
+            try {
+                const searchTerm = e.target.value;
+                const mode = document.querySelector('input[name="mode"]:checked').value;
+
+                if (mode === 'instant') {
+                    filterNames(searchTerm);
+                } else if (mode === 'debounce') {
+                    debounceFilter(searchTerm);
+                } else {
+                    throttleFilter(searchTerm);
+                }
+            } catch (error) {
+                console.error("Error in input event handler:", error);
+            } finally {
+                console.log("Input event handler finished");
+            }
+        });
+
+        //initial load table
+        renderNames(Names)
+     </script>
+    
+</body>
+</html>

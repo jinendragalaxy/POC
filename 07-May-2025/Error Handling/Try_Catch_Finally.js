@@ -1,6 +1,6 @@
 function divideNumber (a, b) {
   try {
-    if (b === 0) {
+    if (c === 0) {
       throw new Error('Cannot divide by zero!!!')
     }
     const result = a / b

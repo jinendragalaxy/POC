@@ -1,0 +1,1 @@
+We learned this day about advance JAvaScript concepts, more detailed code for async and await understanding, error handling

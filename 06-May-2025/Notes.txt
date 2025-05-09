@@ -1,0 +1,1 @@
+We leanred on this day about the JAvaScript Basis, data types, fetures of es6 like arrow function, template literals, async await, operators like spread and rest, closure and etc

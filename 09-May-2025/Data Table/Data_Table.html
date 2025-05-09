@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="Data_Table.css">
+    <title>Data Table</title>
+</head>
+<body>
+    <h2>Search Names</h2>
+    <input type="text" id="search" placeholder="Search Names....">
+
+    <div class="controls">
+        <label>
+            <input type="radio" name="mode" value="instant" checked> Instant
+        </label>
+
+        <label>
+            <input type="radio" name="mode" value="debounce" checked> Debounce
+        </label>
+
+        <label>
+            <input type="radio" name="mode" value="throttle" checked> Throttle
+        </label>
+    </div>
+
+    <table class="table table-bordered table-hover mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody id="results"></tbody>
+    </table>
+    <script src="Data_Table.js"></script>
+</body>
+</html>

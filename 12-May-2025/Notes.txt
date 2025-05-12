@@ -1,1 +1,8 @@
 Today we learn the basic of typescript and convert the programs
+
+Basic Types of TS (Number, String, Boolean, Array, Tuples, ANy, UNkown, Never, Void, ENums), 
+Type Inference, Union & Interesection Types, Type Alliases, Interfaces, Classes, Constructor, 
+Access Modifiers, Functions, Type Assertions, Literals
+
+
+Type Script Project Setup

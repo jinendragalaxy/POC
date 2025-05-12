@@ -1,0 +1,25 @@
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.controls label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+input[type="radio"] {
+    margin: 0;
+}

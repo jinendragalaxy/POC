@@ -1,14 +1,29 @@
 <template>
-  <div class="login-container active">
+  <div class="login-container">
     <div class="login-box">
       <h2>Login</h2>
       <form @submit.prevent="handleLogin">
-        <input type="text" v-model="username" placeholder="Username" />
-        <input type="password" v-model="password" placeholder="Password" />
+        <input
+          type="text"
+          v-model="username"
+          placeholder="Enter username"
+          required
+        />
+        <input
+          type="password"
+          v-model="password"
+          placeholder="Enter password"
+          required
+        />
         <button type="submit">Login</button>
-        <p v-if="error" style="color: red;">{{ error }}</p>
       </form>
-      <a href="#" @click.prevent="goToRegister">Don't have an account? Register</a>
+
+      <!-- Success or Error message -->
+      <p v-if="message" :class="messageType">{{ message }}</p>
+
+      <p>
+        Don't have an account? <router-link to="/register">Register here</router-link>
+      </p>
     </div>
   </div>
 </template>
@@ -19,23 +34,24 @@ export default {
     return {
       username: '',
       password: '',
-      error: ''
+      message: '',
+      messageType: ''
     };
   },
   methods: {
     handleLogin() {
-      if (!this.username || !this.password) {
-        this.error = 'Please enter both username and password.';
-        return;
+      // Simulate a successful login
+      if (this.username === 'user' && this.password === 'password') {
+        this.message = 'Login Successful! Redirecting...';
+        this.messageType = 'success';
+        setTimeout(() => {
+          this.$router.push('/home'); // Redirect to home after success
+        }, 2000); // Redirect after 2 seconds
+      } else {
+        this.message = 'Invalid credentials, please try again';
+        this.messageType = 'error';
       }
-
-      // Simulate success (you can replace this logic with actual backend auth)
-      alert("Login successful!");
-      this.$router.push({ name: 'Home' });
-    },
-    goToRegister() {
-      this.$router.push({ name: 'Register' });
     }
   }
-}
+};
 </script>

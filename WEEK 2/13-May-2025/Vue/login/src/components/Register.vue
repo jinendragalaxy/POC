@@ -1,15 +1,35 @@
 <template>
-  <div class="register-container active">
+  <div class="register-container">
     <div class="register-box">
       <h2>Register</h2>
       <form @submit.prevent="handleRegister">
-        <input type="text" v-model="username" placeholder="Username" />
-        <input type="password" v-model="password" placeholder="Password" />
-        <input type="password" v-model="confirmPassword" placeholder="Confirm Password" />
+        <input
+          type="text"
+          v-model="username"
+          placeholder="Enter username"
+          required
+        />
+        <input
+          type="password"
+          v-model="password"
+          placeholder="Enter password"
+          required
+        />
+        <input
+          type="password"
+          v-model="confirmPassword"
+          placeholder="Confirm password"
+          required
+        />
         <button type="submit">Register</button>
-        <p v-if="error" style="color: red;">{{ error }}</p>
       </form>
-      <a href="#" @click.prevent="goToLogin">Already have an account? Login</a>
+
+      <!-- Success or Error message -->
+      <p v-if="message" :class="messageType">{{ message }}</p>
+
+      <p>
+        Already have an account? <router-link to="/">Login here</router-link>
+      </p>
     </div>
   </div>
 </template>
@@ -21,27 +41,25 @@ export default {
       username: '',
       password: '',
       confirmPassword: '',
-      error: ''
+      message: '',
+      messageType: ''
     };
   },
   methods: {
     handleRegister() {
-      if (!this.username || !this.password || !this.confirmPassword) {
-        this.error = 'All fields are required.';
-        return;
-      }
+      // Simulate validation and API call
       if (this.password !== this.confirmPassword) {
-        this.error = "Passwords do not match.";
-        return;
+        this.message = 'Passwords do not match';
+        this.messageType = 'error';
+      } else {
+        // Simulate successful registration
+        this.message = 'Registration Successful! Redirecting to login...';
+        this.messageType = 'success';
+        setTimeout(() => {
+          this.$router.push('/'); // Redirect to login after success
+        }, 2000); // Redirect after 2 seconds
       }
-
-      // Simulate success
-      alert("Registration successful!");
-      this.$router.push({ name: 'Login' });
-    },
-    goToLogin() {
-      this.$router.push({ name: 'Login' });
     }
   }
-}
+};
 </script>

@@ -1,22 +1,23 @@
-<!-- src/App.vue -->
 <template>
   <div id="app">
-    <h1>Login/Register Demo</h1>
-    <nav>
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/register">Register</router-link>
-    </nav>
-    <router-view />
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'App'
+};
+</script>
+
 <style>
-nav {
-  margin-bottom: 20px;
+/* Page transition animation */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s ease;
 }
-a {
-  margin-right: 10px;
-  text-decoration: none;
-  color: blue;
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 </style>

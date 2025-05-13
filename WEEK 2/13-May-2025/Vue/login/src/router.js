@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Login from '@/components/Login.vue';
 import Register from '@/components/Register.vue';
 import Home from '@/components/Home.vue';
+import Test from './components/Test.vue';
 
 Vue.use(Router);
 
@@ -11,6 +12,7 @@ export default new Router({
   routes: [
     { path: '/', name: 'Login', component: Login },
     { path: '/register', name: 'Register', component: Register },
-    { path: '/home', name: 'Home', component: Home }
+    { path: '/home', name: 'Home', component: Home },
+    { path: '/test', name: 'Test', component: Test }
   ]
 });

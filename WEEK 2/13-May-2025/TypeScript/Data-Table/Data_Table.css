@@ -1,0 +1,17 @@
+body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  input[type="text"], select {
+    font-size: 16px;
+    padding: 8px;
+  }
+  
+  .controls label {
+    margin-right: 15px;
+    cursor: pointer;
+  }
+  

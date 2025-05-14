@@ -12,6 +12,7 @@ export function setupAddition(): void {
       const sum = a + b;
   
       console.log("Sum:", sum);
+      console.log("Hi from Js");
       resultSpan.textContent = sum.toString();
     });
   }

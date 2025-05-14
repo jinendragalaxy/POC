@@ -1,0 +1,49 @@
+explaination of every file of proejct
+
+1. node_modules/
+Contains all installed npm packages.
+
+2. public/
+🔹 public/index.html
+The HTML entry point of your app.
+
+3. src/ (Your main code lives here)
+🔹 main.js or main.ts
+Entry point of the app.
+
+Initializes Vue, mounts the app to the DOM.
+
+4. App.vue
+The root component of your application.
+
+Holds your layout, header/footer, and <router-view> to display pages.
+
+5. components/
+Contains reusable components like buttons, forms, cards, etc.
+
+6. views/ (optional, often used with Vue Router)
+Contains page-level components (route targets).
+
+Examples: Home.vue, About.vue, Dashboard.vue
+
+7. router/index.js (only if using Vue Router)
+Configures your application’s routes.
+
+8. package.json
+Defines your app’s metadata, dependencies, and scripts.
+
+9. babel.config.js
+Babel is a JavaScript compiler that lets you use modern JavaScript (ES6+) while 
+maintaining compatibility with older browsers.
+
+10. package-lock.json
+This file locks the exact versions of installed packages to ensure consistency across all developers and deployments.
+
+11. Vue CLI (Command Line Interface) is a tool for scaffolding and managing Vue.js projects. It helps developers quickly start Vue projects with all the configuration set up for you (like Webpack, Babel, ESLint, etc.).
+
+| Command           | What it does                                                               | Common in |
+| ----------------- | -------------------------------------------------------------------------- | --------- |
+| `npm run serve`   | Starts a **Vue CLI** dev server on localhost (hot reload, dev mode)        | Vue CLI   |
+| `npm run dev`     | Starts a **Vite** development server (faster, modern replacement of CLI)   | Vite      |
+| `npm run build`   | Builds your app for **production** — minified, optimized output in `dist/` | Both      |
+| `npm run preview` | Previews the **production build** locally (optional for Vite)              | Vite      |

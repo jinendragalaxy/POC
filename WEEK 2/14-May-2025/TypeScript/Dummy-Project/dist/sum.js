@@ -8,6 +8,7 @@ export function setupAddition() {
         const b = Number(num2Input.value);
         const sum = a + b;
         console.log("Sum:", sum);
+        console.log("Hi from Js");
         resultSpan.textContent = sum.toString();
     });
 }

@@ -68,6 +68,8 @@ const throttle = <T extends (...args: any[]) => void>(func: T, limit: number): T
 const debounceFilter = debounce(filterPeople, 500);
 const throttleFilter = throttle(filterPeople, 500);
 
+
+// handle search function
 const handleSearch = () => {
   const searchTerm = searchInput.value;
   const filterBy = filterBySelect.value;

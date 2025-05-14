@@ -1,1 +1,9 @@
 today i setup the proper proejct
+
+MAke proejct 1 to understand the port configuratioon, the commands npm run serve dev etc.
+
+then create vue-lifecycle-demo to underatnd the lifecycle hook in vue JS 2
+
+AFTER THAT CREATED  vue-session-demo in which user session management 
+
+AFter that created router-understand project

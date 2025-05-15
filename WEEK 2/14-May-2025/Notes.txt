@@ -1,3 +1,5 @@
+14-May-2025
+
 today i setup the proper proejct
 
 MAke proejct 1 to understand the port configuratioon, the commands npm run serve dev etc.
@@ -7,3 +9,21 @@ then create vue-lifecycle-demo to underatnd the lifecycle hook in vue JS 2
 AFTER THAT CREATED  vue-session-demo in which user session management 
 
 AFter that created router-understand project
+
+than create vue-project-4 to complet4e the given tasks and i completed -
+
+Sir, today I completed the following tasks:
+
+1. Understood the Vue.js project setup and folder structure, including the purpose of package.json.
+
+2. Ran the development server using npm run dev and configured a custom port.
+
+3. Set up Vue Router with default redirects, dynamic routes (/user/:id), and nested routes under /settings (like /settings/profile, /settings/password).
+
+4. Implemented user session management using local storage in Vue.js.
+
+5.Explored Vue 2 lifecycle hooks with examples; used the created() hook to fetch product data from an API.
+
+6. Created a reusable Vue component that logs messages in each lifecycle phase for better understanding.
+
+7. Practiced passing route parameters and props between components using Vue Router.

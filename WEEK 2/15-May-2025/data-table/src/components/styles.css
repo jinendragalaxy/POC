@@ -1,0 +1,76 @@
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0 10px;
+  }
+  
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+  }
+  
+  .custom-select,
+  .custom-input {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .custom-select:focus,
+  .custom-input:focus {
+    border-color: #007bff;
+  }
+  
+  .modes {
+    margin-bottom: 15px;
+  }
+  
+  .modes label {
+    margin-right: 20px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-table thead tr {
+    background-color: #007bff;
+    color: white;
+    text-align: left;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }
+  
+  .custom-table tbody tr:hover {
+    background-color: #f1f7ff;
+    cursor: pointer;
+  }
+  
+  .custom-table tbody tr td[colspan] {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+  }
+  
+  /* Responsive: scroll horizontally on small screens */
+  @media (max-width: 600px) {
+    .custom-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }

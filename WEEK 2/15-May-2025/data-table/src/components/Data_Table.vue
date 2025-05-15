@@ -62,7 +62,7 @@
         mode: "instant",
         filteredPeople: [],
         debounceTimeout: null,
-        lastThrottleTime: 0,
+        lastThrottleTime: 1000,
       };
     },
     watch: {

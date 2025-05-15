@@ -1,10 +1,20 @@
 <template>
   <div id="app">
-    
+    <Parents/>
     <router-view/>
   </div>
 </template>
 
+<script>
+import Parents from './views/Parents.vue';
+
+export default {
+  name : 'App',
+  components : {
+    Parents
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -1,0 +1,1 @@
+In this project i am passign props from child to parents and paretns

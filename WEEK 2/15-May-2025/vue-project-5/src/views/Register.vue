@@ -1,48 +1,48 @@
 <template>
-    <div>
-      <h2>Register</h2>
-      <form @submit.prevent="submit">
-        <input v-model="name" name="name" v-validate="'required'" placeholder="Name" />
-        <span>{{ errors.first('name') }}</span>
-  
-        <input v-model="email" name="email" v-validate="'required|email'" placeholder="Email" />
-        <span>{{ errors.first('email') }}</span>
-  
-        <input type="password" v-model="password" name="password" v-validate="'required|min:6'" placeholder="Password" />
-        <span>{{ errors.first('password') }}</span>
-  
-        <button type="submit">Register</button>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        name: '',
-        email: '',
-        password: ''
-      }
-    },
-    metaInfo() {
-      return {
-        title: 'Register - NDA Sports Academy',
-        meta: [
-          { name: 'description', content: 'Create your NDA Sports Academy account.' }
-        ]
-      }
-    },
-    methods: {
-      submit() {
-        this.$validator.validateAll().then(valid => {
-          if (valid) {
-            alert('Registration successful!')
-            this.$router.push('/login')
-          }
-        })
-      }
+  <div>
+    <h2>Register</h2>
+    <form @submit.prevent="register">
+      <input type="text" v-model="name" name="name" placeholder="Name" v-validate="'required'" />
+      <span>{{ errors.first('name') }}</span>
+
+      <input type="email" v-model="email" name="email" placeholder="Email" v-validate="'required|email'" />
+      <span>{{ errors.first('email') }}</span>
+
+      <input type="password" v-model="password" name="password" placeholder="Password" v-validate="'required|min:6'" />
+      <span>{{ errors.first('password') }}</span>
+
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Register',
+  metaInfo: {
+    title: 'Register - NDA Academy',
+    meta: [{ name: 'description', content: 'Register for NDA Sports Academy' }]
+  },
+  data() {
+    return {
+      name: '',
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    register() {
+      this.$validator.validateAll().then(valid => {
+        if (valid) {
+          alert('Registration successful');
+          this.$router.push('/dashboard');
+        }
+      });
     }
   }
-  </script>
-  
+}
+</script>
+
+<style scoped>
+@import '../assets/form.css';
+</style>

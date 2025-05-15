@@ -1,44 +1,44 @@
 <template>
-    <div>
-      <h2>Login</h2>
-      <form @submit.prevent="submit">
-        <input v-model="email" name="email" v-validate="'required|email'" placeholder="Email" />
-        <span>{{ errors.first('email') }}</span>
-  
-        <input type="password" v-model="password" name="password" v-validate="'required|min:6'" placeholder="Password" />
-        <span>{{ errors.first('password') }}</span>
-  
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        email: '',
-        password: ''
-      }
-    },
-    metaInfo() {
-      return {
-        title: 'Login - NDA Sports Academy',
-        meta: [
-          { name: 'description', content: 'Login to your NDA Sports Academy account.' }
-        ]
-      }
-    },
-    methods: {
-      submit() {
-        this.$validator.validateAll().then(valid => {
-          if (valid) {
-            alert('Login successful!')
-            this.$router.push('/dashboard')
-          }
-        })
-      }
+  <div>
+    <h2>Login</h2>
+    <form @submit.prevent="login">
+      <input type="email" v-model="email" name="email" placeholder="Email" v-validate="'required|email'" />
+      <span>{{ errors.first('email') }}</span>
+
+      <input type="password" v-model="password" name="password" placeholder="Password" v-validate="'required|min:6'" />
+      <span>{{ errors.first('password') }}</span>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Login',
+  metaInfo: {
+    title: 'Login - NDA Academy',
+    meta: [{ name: 'description', content: 'Login page for NDA Sports Academy' }]
+  },
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    login() {
+      this.$validator.validateAll().then(valid => {
+        if (valid) {
+          alert('Login successful');
+          this.$router.push('/dashboard');
+        }
+      });
     }
   }
-  </script>
-  
+}
+</script>
+
+<style scoped>
+@import '../assets/form.css';
+</style>

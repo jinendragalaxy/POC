@@ -3,7 +3,7 @@
     <h2>Fabric.js with Vue 2 (NPM)</h2>
     <button @click="addRectangle">Add Rectangle</button>
     <button @click="addCircle">Add Circle</button>
-    <canvas id="myCanvas" width="600" height="400" style="border: 1px solid black;"></canvas>
+    <canvas id="myCanvas" width="600" height="400" ></canvas>
   </div>
 </template>
 
@@ -60,6 +60,8 @@ body {
   padding: 20px;
 }
 #myCanvas {
-  margin-top: 20px;
+  margin-top: 50px;
+  margin-right: 20px;
+  border: 2px solid black;
 }
 </style>

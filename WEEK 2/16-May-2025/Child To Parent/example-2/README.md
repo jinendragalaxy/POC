@@ -1,4 +1,4 @@
-# child-to-parent
+# example-2
 
 ## Project setup
 ```

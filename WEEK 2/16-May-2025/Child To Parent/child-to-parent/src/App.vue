@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import InfoPage from '../src/views/InfoPage.vue';
-import ContactPage from '../src/views/ContactPage.vue';
+import InfoPage from './views/InfoPage.vue';
+import ContactPage from './views/ContactPage.vue';
 
 export default {
   components: {

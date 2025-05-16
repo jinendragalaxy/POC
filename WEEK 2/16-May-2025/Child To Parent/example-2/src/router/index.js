@@ -1,22 +1,29 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import ContactPage from '@/components/ContactPage.vue';
+import InfoPage from '@/components/InfoPage.vue';
+import Vue from 'vue';
+import Router from 'vue-router';
 
 
-Vue.use(VueRouter)
+Vue.use(Router);
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    
-  },
- 
-]
-
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
-
-export default router
+export default new Router({
+  mode: 'history', // optional, for clean URLs
+  routes: [
+    {
+      path: '/info',
+      name: 'InfoPage',
+      component: InfoPage,
+      props: true  // route props allow passing data via route
+    },
+    {
+      path: '/contact',
+      name: 'ContactPage',
+      component: ContactPage,
+      props: true
+    },
+    {
+      path: '*',
+      redirect: '/contact' // default route
+    }
+  ]
+});

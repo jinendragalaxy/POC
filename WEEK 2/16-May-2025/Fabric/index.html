@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fabric.js Basic Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Fabric.js - Rectangle and Circle Example</h2>
+    <canvas id="myCanvas" width="1200" height="1200"></canvas>
+
+    <script>
+      // Fabric canvas create karo
+      const canvas = new fabric.Canvas("myCanvas");
+
+      // Rectangle create karo
+      const rect = new fabric.Rect({
+        left: 50,
+        top: 50,
+        fill: "red",
+        width: 150,
+        height: 100,
+        strokewidth : 200
+      });
+      canvas.add(rect); // Canvas mein add karo
+
+      // Circle create karo
+      const circle = new fabric.Circle({
+        left: 250,
+        top: 150,
+        radius: 75,
+        fill: "green",
+      });
+      canvas.add(circle); // Canvas mein add karo
+
+      const tri = new fabric.Triangle({
+        left: 450,
+        top: 250,
+        width : 300,
+        height : 300,
+        fill: "yellow",
+      });
+      canvas.add(tri)
+    </script>
+  </body>
+</html>

@@ -10,54 +10,92 @@
 </template>
 
 <script>
-import { Canvas, Rect, Circle, FabricImage,} from 'fabric'
+// Fabric 6+ me ab 'fabric' named export se import karo
+import * as fabric from 'fabric'
 
 export default {
   name: 'FabricLite',
-  data() { return { fab: null } },
-
+  data() {
+    return {
+      fab: null
+    }
+  },
   mounted() {
-    this.fab = new Canvas(this.$refs.canvas1)
+    // Canvas banate waqt fabric.Canvas ka use karo
+    this.fab = new fabric.Canvas(this.$refs.canvas1)
     this.fab.backgroundColor = '#f9f9f9'
     this.fab.requestRenderAll()
   },
-
-  beforeDestroy() { this.fab.dispose() },
-
+  beforeDestroy() {
+    this.fab.dispose()
+  },
   methods: {
     addRect() {
-      this.fab.add(new Rect({ left: 50, top: 50, width: 120, height: 80, fill: 'lightskyblue' }))
+      const rect = new fabric.Rect({
+        left: 50,
+        top: 50,
+        width: 120,
+        height: 80,
+        fill: 'lightskyblue',
+      })
+      this.fab.add(rect)
+      this.fab.requestRenderAll()
     },
-
     addCircle() {
-      this.fab.add(new Circle({ left: 200, top: 100, radius: 50, fill: 'plum' }))
+      const circle = new fabric.Circle({
+        left: 200,
+        top: 100,
+        radius: 50,
+        fill: 'plum',
+      })
+      this.fab.add(circle)
+      this.fab.requestRenderAll()
     },
+    async addImage() {
+  const url = '/ship.jpeg'; // local image path from public folder
 
-    addImage() {
-      console.log("clciked")
-  const url = '/ship.jpeg';
+  try {
+    const img = await new Promise((resolve, reject) => {
+      fabric.Image.fromURL(
+        url,
+        (image) => image ? resolve(image) : reject('Image load failed'),
+        { crossOrigin: 'anonymous' }
+      )
+    });
 
-  // @ts-ignore: Fabric.js marks Image as deprecated but still works
-  FabricImage.fromURL(url, (img) => {
-    img.set({ left: 100, top: 100, scaleX: 0.5, scaleY: 0.5 });
+    img.set({
+      left: 50,  // position x
+      top: 50,   // position y
+      scaleX: 2,  // scale size adjust karo agar image badi lage
+      scaleY: 2,
+    });
+
     this.fab.add(img);
-    this.fab.setActiveObject(img);
-    this.fab.renderAll();
-  }, { crossOrigin: 'anonymous' });
+    this.fab.requestRenderAll();
+    console.log('Image added:', img);
+
+  } catch (error) {
+    console.error(error);
+  }
 },
+
+
 
 
     clearAll() {
       this.fab.clear()
       this.fab.backgroundColor = '#f9f9f9'
       this.fab.requestRenderAll()
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
 button {
-  margin-right: 4px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
 }
 </style>

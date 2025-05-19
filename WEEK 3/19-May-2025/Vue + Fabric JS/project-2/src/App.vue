@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import FabricLite from '../src/components/FabricLite.vue'
+import FabricLite from './components/FabricLite.vue'
 export default { components: { FabricLite } }
 </script>
 

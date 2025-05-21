@@ -88,37 +88,51 @@ export default {
     //   this.canvas.renderAll();
     // },
     bringForward() {
-
       const obj = this.canvas.getActiveObject();
 
       if (!obj) {
-
-        console.warn('No active object found.');
-
+        console.warn('No active object selected for Bring Forward.');
+        return;
       }
 
       const objects = this.canvas.getObjects();
-
       const index = objects.indexOf(obj);
 
-      console.log(`Current z-index: ${index} / ${objects.length - 1}`);
+      console.log(`[Before] Z-index: ${index} / ${objects.length - 1}`);
 
+      // Move forward
       this.canvas.bringForward(obj);
 
+      // Re-render canvas
       this.canvas.renderAll();
 
-      // Check updated position
-
       const newIndex = this.canvas.getObjects().indexOf(obj);
-
-      console.log(`New z-index: ${newIndex}`);
-
+      console.log(`[After] Z-index: ${newIndex}`);
     },
 
     sendBackward() {
       const obj = this.canvas.getActiveObject();
-      if (obj) this.canvas.sendBackwards(obj);
-    },
+
+      if (!obj) {
+        console.warn('No active object selected for Send Backward.');
+        return;
+      }
+
+      const objects = this.canvas.getObjects();
+      const index = objects.indexOf(obj);
+
+      console.log(`[Before] Z-index: ${index} / ${objects.length - 1}`);
+
+      // Move backward
+      this.canvas.sendBackwards(obj);
+
+      // Re-render canvas
+      this.canvas.renderAll();
+
+      const newIndex = this.canvas.getObjects().indexOf(obj);
+      console.log(`[After] Z-index: ${newIndex}`);
+    }
+    ,
     downloadPNG() {
       const dataURL = this.canvas.toDataURL({ format: 'png' });
       const a = document.createElement('a');

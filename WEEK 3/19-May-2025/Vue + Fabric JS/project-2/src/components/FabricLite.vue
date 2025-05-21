@@ -10,7 +10,7 @@
 </template>
 
 <script>
-// Fabric 6+ me ab 'fabric' named export se import karo
+
 import * as fabric from 'fabric'
 
 export default {
@@ -21,7 +21,7 @@ export default {
     }
   },
   mounted() {
-    // Canvas banate waqt fabric.Canvas ka use karo
+
     this.fab = new fabric.Canvas(this.$refs.canvas1)
     this.fab.backgroundColor = '#f9f9f9'
     this.fab.requestRenderAll()
@@ -52,32 +52,32 @@ export default {
       this.fab.requestRenderAll()
     },
     async addImage() {
-  const url = '/ship.jpeg'; // local image path from public folder
+      const url = '/ship.jpeg';
 
-  try {
-    const img = await new Promise((resolve, reject) => {
-      fabric.Image.fromURL(
-        url,
-        (image) => image ? resolve(image) : reject('Image load failed'),
-        { crossOrigin: 'anonymous' }
-      )
-    });
+      try {
+        const img = await new Promise((resolve, reject) => {
+          fabric.Image.fromURL(
+            url,
+            (image) => image ? resolve(image) : reject('Image load failed'),
+            { crossOrigin: 'anonymous' }
+          )
+        });
 
-    img.set({
-      left: 50,  // position x
-      top: 50,   // position y
-      scaleX: 2,  // scale size adjust karo agar image badi lage
-      scaleY: 2,
-    });
+        img.set({
+          left: 50,
+          top: 50,
+          scaleX: 2,
+          scaleY: 2,
+        });
 
-    this.fab.add(img);
-    this.fab.requestRenderAll();
-    console.log('Image added:', img);
+        this.fab.add(img);
+        this.fab.requestRenderAll();
+        console.log('Image added:', img);
 
-  } catch (error) {
-    console.error(error);
-  }
-},
+      } catch (error) {
+        console.error(error);
+      }
+    },
 
 
 

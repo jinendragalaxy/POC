@@ -42,7 +42,7 @@
       </label>
     </div>
 
-    <!-- NO SELECTION -->
+    <!-- when nothing selected -->
     <div v-else>
       <p>No shape selected.</p>
     </div>

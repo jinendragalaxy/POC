@@ -13,11 +13,12 @@
     <button @click="bringForward">Bring Forward</button>
     <button @click="sendBackward">Send Backward</button>
     <button @click="downloadPNG">Export PNG</button>
+    <button @click="downloadPDF">Export PDF</button>
   </div>
 </template>
 
 <script>
-
+import jsPDF from 'jspdf';
 
 export default {
   props: ['canvas'],
@@ -133,12 +134,21 @@ export default {
       console.log(`[After] Z-index: ${newIndex}`);
     }
     ,
+    // download as png
     downloadPNG() {
       const dataURL = this.canvas.toDataURL({ format: 'png' });
       const a = document.createElement('a');
       a.href = dataURL;
       a.download = 'design.png';
       a.click();
+    },
+    // download as pdf
+    downloadPDF(){
+      const imgData = this.canvas.toDataURL('image/png')
+      const pdf = new jsPDF()
+
+      pdf.addImage(imgData, 'PNG', 10, 10)
+      pdf.save('canvas.pdf')
     }
   }
 };

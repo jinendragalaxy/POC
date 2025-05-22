@@ -1,4 +1,4 @@
-# desgin-studio-2
+# t-shirt-design-studio
 
 ## Project setup
 ```

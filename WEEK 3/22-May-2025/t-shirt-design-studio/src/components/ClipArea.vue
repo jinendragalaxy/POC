@@ -8,6 +8,11 @@ import { fabric } from 'fabric';
 export default {
   name: 'ClipArea',
   props: ['canvas'],
+  data() {
+    return {
+      clipArea: null,
+    };
+  },
   watch: {
     canvas(newCanvas) {
       if (newCanvas) {
@@ -22,7 +27,7 @@ export default {
       const clipLeft = canvas.width / 2 - clipWidth / 2;
       const clipTop = canvas.height / 2 - clipHeight / 2;
 
-      const clipArea = new fabric.Rect({
+      this.clipArea = new fabric.Rect({
         left: clipLeft,
         top: clipTop,
         width: clipWidth,
@@ -37,11 +42,32 @@ export default {
         hoverCursor: 'default',
       });
 
-      canvas.add(clipArea);
+      canvas.add(this.clipArea);
       canvas.renderAll();
 
-      //  Emit to parent
-      this.$emit('clip-ready', clipArea);
+      this.$emit('clip-ready', this.clipArea);
+
+      // Restrict movement inside clip area
+      canvas.on('object:moving', (e) => {
+        const obj = e.target;
+        const padding = 5;
+
+        // Clip bounds
+        const clipLeft = this.clipArea.left;
+        const clipTop = this.clipArea.top;
+        const clipRight = clipLeft + this.clipArea.width;
+        const clipBottom = clipTop + this.clipArea.height;
+
+        // Object bounds
+        const objWidth = obj.getScaledWidth();
+        const objHeight = obj.getScaledHeight();
+
+        // Prevent object from moving outside clip area
+        if (obj.left < clipLeft) obj.left = clipLeft;
+        if (obj.top < clipTop) obj.top = clipTop;
+        if (obj.left + objWidth > clipRight) obj.left = clipRight - objWidth;
+        if (obj.top + objHeight > clipBottom) obj.top = clipBottom - objHeight;
+      });
     }
   }
 };

@@ -1,0 +1,3 @@
+We copy the project of t-shirt from 21-May thenaded the implementation of that user cant drag outside the clip area
+
+but then I find that when user resize the image it will out of the box so I solve that problem

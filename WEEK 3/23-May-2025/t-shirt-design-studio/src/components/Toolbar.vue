@@ -2,50 +2,82 @@
   <div class="toolbar">
     <h3>🎨 Toolbar</h3>
 
-    <!-- Undo/Redo -->
+    <!-- Basic Tools Section -->
     <div class="group">
-      <button @click="deleteObject">Delete</button>
-      <button @click="handleUndo">Undo</button>
-      <button @click="handleRedo">Redo</button>
+      <div class="group-header" @click="toggleSection('basic')">
+        <h4>Basic Tools</h4>
+        <span>{{ openSections.basic ? '▲' : '▼' }}</span>
+      </div>
+      <div v-show="openSections.basic" class="group-body">
+        <button @click="deleteObject">Delete</button>
+        <button @click="handleUndo">Undo</button>
+        <button @click="handleRedo">Redo</button>
+      </div>
     </div>
 
-    <!-- Shapes -->
+    <!-- Shapes Section -->
     <div class="group">
-      <h4>Shapes</h4>
-      <button @click="addShape('rect')"> Rectangle</button>
-      <button @click="addShape('circle')">Circle</button>
-      <button @click="addShape('triangle')">Triangle</button>
-      <button @click="addShape('ellipse')">Ellipse</button>
+      <div class="group-header" @click="toggleSection('shapes')">
+        <h4>Shapes</h4>
+        <span>{{ openSections.shapes ? '▲' : '▼' }}</span>
+      </div>
+      <div v-show="openSections.shapes" class="group-body">
+        <button @click="addShape('rect')">Rectangle</button>
+        <button @click="addShape('circle')">Circle</button>
+        <button @click="addShape('triangle')">Triangle</button>
+        <button @click="addShape('ellipse')">Ellipse</button>
+      </div>
     </div>
 
-    <!-- Text -->
+    <!-- Text Section -->
     <div class="group">
-      <h4>Text</h4>
-      <button @click="addText">Add Text</button>
+      <div class="group-header" @click="toggleSection('text')">
+        <h4>Text</h4>
+        <span>{{ openSections.text ? '▲' : '▼' }}</span>
+      </div>
+      <div v-show="openSections.text" class="group-body">
+        <button @click="addText">Add Text</button>
+      </div>
     </div>
 
-    <!-- Stickers & Images -->
+    <!-- Stickers & Images Section -->
     <div class="group">
-      <h4>Stickers & Images</h4>
-      <button @click="$emit('show-sticker-popup')">Add Sticker</button>
-      <button @click="$emit('show-random-popup')">Add Random Image</button>
-      <input type="file" @change="uploadImage" />
+      <div class="group-header" @click="toggleSection('images')">
+        <h4>Stickers & Images</h4>
+        <span>{{ openSections.images ? '▲' : '▼' }}</span>
+      </div>
+      <div v-show="openSections.images" class="group-body">
+        <button @click="$emit('show-sticker-popup')">Add Sticker</button>
+        <button @click="$emit('show-random-popup')">Add Random Image</button>
+        <input type="file" @change="uploadImage" />
+      </div>
     </div>
 
     <!-- Object Controls -->
     <div class="group">
-      <h4>Object Controls</h4>
-      <button @click="duplicateSelectedObject">Duplicate</button>
-      <button @click="bringForward">Bring Forward</button>
-      <button @click="sendBackward">Send Backward</button>
+      <div class="group-header" @click="toggleSection('controls')">
+        <h4>Object Controls</h4>
+        <span>{{ openSections.controls ? '▲' : '▼' }}</span>
+      </div>
+      <div v-show="openSections.controls" class="group-body">
+        <button @click="duplicateSelectedObject">Duplicate</button>
+        <button @click="bringForward">Bring Forward</button>
+        <button @click="sendBackward">Send Backward</button>
+      </div>
     </div>
 
-    <!-- Export -->
+    <!-- Export Section -->
     <div class="group">
-      <h4>Export</h4>
-      <button @click="downloadPNG">Export PNG</button>
-      <button @click="downloadPDF">Export PDF</button>
+      <div class="group-header" @click="toggleSection('export')">
+        <h4>Export</h4>
+        <span>{{ openSections.export ? '▲' : '▼' }}</span>
+      </div>
+      <div v-show="openSections.export" class="group-body">
+        <button @click="downloadPNG">Export PNG</button>
+        <button @click="downloadPDF">Export PDF</button>
+      </div>
     </div>
+  
     <!-- Popup component for sticker -->
     <!-- <Popup :visible="showStickerPopup" title="Choose a Sticker" @close="showStickerPopup = false">
       <div class="sticker-list">
@@ -69,6 +101,18 @@
 import jsPDF from "jspdf";
 import Popup from "./Common/Popup.vue"
 export default {
+  data() {
+    return {
+      openSections: {
+        basic: false,
+        shapes: false,
+        text: false,
+        images: false,
+        controls: false,
+        export: false,
+      }
+    };
+  },
   props: {
     canvas: Object,
     clipRect: Object,
@@ -80,6 +124,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    
   },
   components: {
     Popup
@@ -108,7 +153,9 @@ export default {
     handleRedo() {
       this.$emit('redo');
     },
-
+    toggleSection(section) {
+      this.openSections[section] = !this.openSections[section];
+    },
     addShape(type) {
       if (!this.clipRect) {
         console.warn("Clip area not ready yet");
@@ -338,40 +385,59 @@ export default {
   },
 };
 </script>
-
 <style scoped>
+/* Toolbar container */
 .toolbar {
-  width: 220px;
+  width: 280px;
   padding: 15px 20px;
   background: #f9fafb;
   border-right: 2px solid #ddd;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   user-select: none;
 }
 
+/* Main toolbar heading */
 h3 {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: #333;
   border-bottom: 2px solid #1976d2;
   padding-bottom: 5px;
   font-weight: 700;
 }
 
-h4 {
-  margin-bottom: 8px;
+/* Group container */
+.group {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+/* Collapsible section header */
+.group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.group-header h4 {
+  margin: 0;
   font-weight: 600;
   color: #1976d2;
 }
 
-.group {
+/* Section content */
+.group-body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 5px 0 10px;
 }
 
+/* Buttons */
 button {
   padding: 8px 12px;
   background-color: #1976d2;
@@ -393,6 +459,7 @@ button:hover:not(:disabled) {
   background-color: #155a9c;
 }
 
+/* File input */
 input[type="file"] {
   margin-top: 6px;
 }

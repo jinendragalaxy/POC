@@ -1,9 +1,12 @@
 <template>
   <div class="studio-layout">
-    <Toolbar :canvas="canvas" :clipRect="clipRect" @show-random-popup="showRandomPopup = true"
-      @show-sticker-popup="showStickerPopup = true" @undo="undo" @redo="redo" />
-
-
+    <Toolbar 
+    :canvas="canvas" 
+    :clipRect="clipRect" 
+    @show-random-popup="showRandomPopup = true"
+    @show-sticker-popup="showStickerPopup = true" 
+    @undo="undo" 
+    @redo="redo" />
 
     <!-- Popup component for sticker -->
     <Popup :visible="showStickerPopup" title="Choose a Sticker" @close="showStickerPopup = false">
@@ -81,12 +84,23 @@ export default {
     saveState(isInitial = false) {
       if (!this.canvas || this.isRestoring) return;
 
+      // Normalize all objects
+      this.canvas.getObjects().forEach(obj => {
+        if (obj.scaleX !== 1 || obj.scaleY !== 1) {
+          obj.set({
+            width: obj.width * obj.scaleX,
+            height: obj.height * obj.scaleY,
+            scaleX: 1,
+            scaleY: 1
+          });
+          obj.setCoords(); // Update coordinates after resizing
+        }
+      });
+
       const json = this.canvas.toJSON();
-      if (isInitial) {
-        console.log("Initial state objects:", json.objects); // 👈 log
-      }
 
       if (isInitial) {
+        console.log("Initial state objects:", json.objects);
         this.undoStack = [json];
         this.redoStack = [];
       } else {
@@ -99,16 +113,16 @@ export default {
 
 
     updateUndoRedoState() {
-  this.canUndo = this.undoStack.length > 1;
-  this.canRedo = this.redoStack.length > 0;
+      this.canUndo = this.undoStack.length > 1;
+      this.canRedo = this.redoStack.length > 0;
 
-  console.log("UndoStack:", this.undoStack.length, "canUndo:", this.canUndo);
-  console.log("RedoStack:", this.redoStack.length, "canRedo:", this.canRedo);
+      console.log("UndoStack:", this.undoStack.length, "canUndo:", this.canUndo);
+      console.log("RedoStack:", this.redoStack.length, "canRedo:", this.canRedo);
 
-  // Emit these to Toolbar
-  this.$emit('update:canUndo', this.canUndo);
-  this.$emit('update:canRedo', this.canRedo);
-},
+      // Emit these to Toolbar
+      this.$emit('update:canUndo', this.canUndo);
+      this.$emit('update:canRedo', this.canRedo);
+    },
 
 
     undo() {
@@ -194,13 +208,29 @@ export default {
           this.canvas.requestRenderAll()
         }
       }
-    }
+    },
+
+    handleKeyDown(e) {
+      // Undo: Ctrl + Z or Cmd + Z
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+        e.preventDefault();
+        this.undo();
+      }
+      // Redo: Ctrl + Y or Cmd + Shift + Z
+      else if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y' || (e.shiftKey && e.key.toLowerCase() === 'z'))) {
+        e.preventDefault();
+        this.redo();
+      }
+    },
   },
   mounted() {
     window.addEventListener('keydown', this.handleKeyPress);
+    window.addEventListener('keydown', this.handleKeyDown);
   },
+  
   beforeDestroy() {
     window.removeEventListener('keydown', this.handleKeyPress)
+    window.removeEventListener('keydown', this.handleKeyDown)
   },
 };
 </script>

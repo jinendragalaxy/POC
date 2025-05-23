@@ -44,8 +44,9 @@ export default {
         hasControls: false,
         hasBorders: false,
         hoverCursor: 'default',
+        excludeFromHistory: true,
+        
       });
-
       canvas.add(this.clipArea);
       canvas.renderAll();
 

@@ -27,6 +27,10 @@
       <label>Opacity:
         <input type="range" min="0" max="1" step="0.1" v-model.number="opacity" @input="updateOpacity" />
       </label>
+
+      <label>Rotate : 
+        <input type="range" min="0" max="360" step="1" v-model.number="angle" @input="updateAngle" />
+      </label>
       
     </div>
 
@@ -62,7 +66,9 @@ export default {
       opacity: 1,
       fill: '#ffffff',
       stroke: '#000000',
-      strokeWidth: 1
+      strokeWidth: 1,
+      angle: 0,
+      
     };
   },
   computed: {
@@ -182,6 +188,13 @@ export default {
         this.active.set('opacity', this.opacity);
         this.canvas.renderAll();
         console.log('Opacity updated:', this.opacity);
+      }
+    },
+
+    updateAngle(){
+      if(this.imageSelected){
+        this,this.active.set('angle', this.angle);
+        this.canvas.renderAll();
       }
     },
 

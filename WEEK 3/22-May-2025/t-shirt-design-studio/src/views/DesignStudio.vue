@@ -20,7 +20,8 @@ import ClipArea from '../components/ClipArea.vue'
 export default {
   components: { Toolbar, FabricCanvas, PropertiesPanel, TShirtArea, ClipArea },
   data() {
-    return { canvas: null, 
+    return {
+      canvas: null,
       clipRect: null
     };
   },
@@ -29,9 +30,32 @@ export default {
       this.canvas = c;
     },
     setClipRect(r) {
-    this.clipRect = r;
-  }
-  }
+      this.clipRect = r;
+    },
+    //method to event handle od delete
+    handleKeyPress(e) {
+      if (!this.canvas) return;
+
+      if (e.key === 'Delete') {
+        const activeObjects = this.canvas.getActiveObjects();
+
+        if (activeObjects.length) {
+          activeObjects.forEach(obj => {
+            this.canvas.remove(obj)
+            console.log("Object Remove");
+          })
+          this.canvas.discardActiveObject();
+          this.canvas.requestRenderAll()
+        }
+      }
+    }
+  },
+  mounted() {
+    window.addEventListener('keydown', this.handleKeyPress);
+  },
+  beforeDestroy() {
+    window.removeEventListener('keydown', this.handleKeyPress)
+  },
 };
 </script>
 
@@ -41,6 +65,7 @@ export default {
   height: 100vh;
   overflow: hidden;
 }
+
 .canvas-area {
   flex: 1;
   display: flex;

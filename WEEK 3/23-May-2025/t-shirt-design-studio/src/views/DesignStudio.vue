@@ -1,6 +1,5 @@
 <template>
   <div class="studio-layout">
-
     <Toolbar :canvas="canvas" :clipRect="clipRect" @show-random-popup="showRandomPopup = true"
       @show-sticker-popup="showStickerPopup = true" @undo="undo" @redo="redo" />
 

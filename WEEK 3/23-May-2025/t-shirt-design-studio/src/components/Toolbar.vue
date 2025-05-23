@@ -1,27 +1,51 @@
 <template>
   <div class="toolbar">
-    <h3>Toolbar</h3>
-    <button @click="handleUndo">Undo</button>
+    <h3>🎨 Toolbar</h3>
 
-    <button @click="handleRedo">Redo</button>
+    <!-- Undo/Redo -->
+    <div class="group">
+      <button @click="deleteObject">Delete</button>
+      <button @click="handleUndo">Undo</button>
+      <button @click="handleRedo">Redo</button>
+    </div>
 
-    <button @click="addShape('rect')">Rectangle</button>
-    <button @click="addShape('circle')">Circle</button>
-    <button @click="addShape('triangle')">Triangle</button>
-    <button @click="addShape('ellipse')">Ellipse</button>
-    <button @click="addText">Text</button>
+    <!-- Shapes -->
+    <div class="group">
+      <h4>Shapes</h4>
+      <button @click="addShape('rect')"> Rectangle</button>
+      <button @click="addShape('circle')">Circle</button>
+      <button @click="addShape('triangle')">Triangle</button>
+      <button @click="addShape('ellipse')">Ellipse</button>
+    </div>
 
-    <!-- Sticker and images section -->
-    <h4>Add Stickers & Images</h4>
-    <button @click="$emit('show-sticker-popup')">Add Sticker</button>
-    <button @click="$emit('show-random-popup')">Add Random Image</button>
-    <input type="file" @change="uploadImage" />
-    <hr />
-    <button @click="deleteObject">Delete</button>
-    <button @click="bringForward">Bring Forward</button>
-    <button @click="sendBackward">Send Backward</button>
-    <button @click="downloadPNG">Export PNG</button>
-    <button @click="downloadPDF">Export PDF</button>
+    <!-- Text -->
+    <div class="group">
+      <h4>Text</h4>
+      <button @click="addText">Add Text</button>
+    </div>
+
+    <!-- Stickers & Images -->
+    <div class="group">
+      <h4>Stickers & Images</h4>
+      <button @click="$emit('show-sticker-popup')">Add Sticker</button>
+      <button @click="$emit('show-random-popup')">Add Random Image</button>
+      <input type="file" @change="uploadImage" />
+    </div>
+
+    <!-- Object Controls -->
+    <div class="group">
+      <h4>Object Controls</h4>
+      <button @click="duplicateSelectedObject">Duplicate</button>
+      <button @click="bringForward">Bring Forward</button>
+      <button @click="sendBackward">Send Backward</button>
+    </div>
+
+    <!-- Export -->
+    <div class="group">
+      <h4>Export</h4>
+      <button @click="downloadPNG">Export PNG</button>
+      <button @click="downloadPDF">Export PDF</button>
+    </div>
     <!-- Popup component for sticker -->
     <!-- <Popup :visible="showStickerPopup" title="Choose a Sticker" @close="showStickerPopup = false">
       <div class="sticker-list">
@@ -84,7 +108,7 @@ export default {
     handleRedo() {
       this.$emit('redo');
     },
-   
+
     addShape(type) {
       if (!this.clipRect) {
         console.warn("Clip area not ready yet");
@@ -170,6 +194,30 @@ export default {
         });
       };
       reader.readAsDataURL(file);
+    },
+
+    //  Duplicate the object
+    duplicateSelectedObject() {
+      const activeObject = this.canvas.getActiveObject();
+
+      if (!activeObject) {
+        console.warn("No active object to duplicate");
+        return;
+      }
+
+      activeObject.clone((cloned) => {
+        // Offset the position slightly
+        cloned.set({
+          left: activeObject.left + 20,
+          top: activeObject.top + 20,
+          evented: true
+        });
+
+        // Add to canvas
+        this.canvas.add(cloned);
+        this.canvas.setActiveObject(cloned);
+        this.canvas.renderAll();
+      });
     },
 
     deleteObject() {
@@ -286,30 +334,66 @@ export default {
     //   },{crossOrigin: 'anonymous'});
     // },
 
+
   },
 };
 </script>
 
 <style scoped>
 .toolbar {
-  width: 200px;
-  padding: 15px;
-  background: #f0f0f0;
-  border-right: 1px solid #ccc;
+  width: 220px;
+  padding: 15px 20px;
+  background: #f9fafb;
+  border-right: 2px solid #ddd;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+}
+
+h3 {
+  margin-bottom: 8px;
+  color: #333;
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 5px;
+  font-weight: 700;
+}
+
+h4 {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #1976d2;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 button {
-  padding: 6px 10px;
+  padding: 8px 12px;
   background-color: #1976d2;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #115293;
+button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #155a9c;
+}
+
+input[type="file"] {
+  margin-top: 6px;
 }
 </style>

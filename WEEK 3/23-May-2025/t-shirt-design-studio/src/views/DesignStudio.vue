@@ -1,6 +1,11 @@
 <template>
   <div class="studio-layout">
-    <Toolbar :canvas="canvas" :clipRect="clipRect" @show-random-popup="showRandomPopup = true" @show-sticker-popup="showStickerPopup = true" />
+
+    <Toolbar :canvas="canvas" :clipRect="clipRect" @show-random-popup="showRandomPopup = true"
+      @show-sticker-popup="showStickerPopup = true" @undo="undo" @redo="redo" />
+
+
+
     <!-- Popup component for sticker -->
     <Popup :visible="showStickerPopup" title="Choose a Sticker" @close="showStickerPopup = false">
       <div class="sticker-list">
@@ -35,13 +40,18 @@ import TShirtArea from '../components/TShirtArea.vue';
 import ClipArea from '../components/ClipArea.vue'
 import Popup from '@/components/Common/Popup.vue';
 export default {
-  components: { Toolbar, FabricCanvas, PropertiesPanel, TShirtArea, ClipArea, Popup },
+  components: { Toolbar, FabricCanvas, PropertiesPanel, TShirtArea, ClipArea, Popup, },
   data() {
     return {
       canvas: null,
       clipRect: null,
       showRandomPopup: false,
       showStickerPopup: false,
+      isRestoring: false,
+      undoStack: [],
+      redoStack: [],
+      canUndo: false,
+      canRedo: false,
       randoms: [
         { id: 1, url: "https://picsum.photos/200" },
         { id: 2, url: "https://loremflickr.com/g/200/240/paris" },
@@ -57,7 +67,82 @@ export default {
   methods: {
     setCanvas(c) {
       this.canvas = c;
+
+      // Setup event listeners
+      this.canvas.on('object:added', () => this.saveState());
+      this.canvas.on('object:modified', () => this.saveState());
+      this.canvas.on('object:removed', () => this.saveState());
+
+      // Wait for default items (rectangle, t-shirt) to be added
+      setTimeout(() => {
+        this.saveState(true); // Save only after default objects are added
+      }, 300); // adjust time as needed
     },
+
+    saveState(isInitial = false) {
+      if (!this.canvas || this.isRestoring) return;
+
+      const json = this.canvas.toJSON();
+      if (isInitial) {
+        console.log("Initial state objects:", json.objects); // 👈 log
+      }
+
+      if (isInitial) {
+        this.undoStack = [json];
+        this.redoStack = [];
+      } else {
+        this.undoStack.push(json);
+        this.redoStack = [];
+      }
+
+      this.updateUndoRedoState();
+    },
+
+
+    updateUndoRedoState() {
+  this.canUndo = this.undoStack.length > 1;
+  this.canRedo = this.redoStack.length > 0;
+
+  console.log("UndoStack:", this.undoStack.length, "canUndo:", this.canUndo);
+  console.log("RedoStack:", this.redoStack.length, "canRedo:", this.canRedo);
+
+  // Emit these to Toolbar
+  this.$emit('update:canUndo', this.canUndo);
+  this.$emit('update:canRedo', this.canRedo);
+},
+
+
+    undo() {
+      if (this.undoStack.length < 2) return;
+
+      const currentState = this.undoStack.pop();
+      this.redoStack.push(currentState);
+
+      const prevState = this.undoStack[this.undoStack.length - 1];
+
+      this.isRestoring = true;
+      this.canvas.loadFromJSON(prevState, () => {
+        this.canvas.renderAll();
+        this.isRestoring = false;
+        this.updateUndoRedoState();
+      });
+    },
+
+    redo() {
+      if (this.redoStack.length === 0) return;
+
+      const redoState = this.redoStack.pop();
+      this.undoStack.push(redoState);
+
+      this.isRestoring = true;
+      this.canvas.loadFromJSON(redoState, () => {
+        this.canvas.renderAll();
+        this.isRestoring = false;
+        this.updateUndoRedoState();
+      });
+    },
+
+
     setClipRect(r) {
       this.clipRect = r;
     },

@@ -27,6 +27,7 @@
       <label>Opacity:
         <input type="range" min="0" max="1" step="0.1" v-model.number="opacity" @input="updateOpacity" />
       </label>
+      
     </div>
 
 <!-- shape properties if shape selects by user -->

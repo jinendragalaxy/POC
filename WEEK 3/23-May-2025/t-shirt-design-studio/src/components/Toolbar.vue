@@ -1,6 +1,10 @@
 <template>
   <div class="toolbar">
     <h3>Toolbar</h3>
+    <button @click="handleUndo">Undo</button>
+
+    <button @click="handleRedo">Redo</button>
+
     <button @click="addShape('rect')">Rectangle</button>
     <button @click="addShape('circle')">Circle</button>
     <button @click="addShape('triangle')">Triangle</button>
@@ -25,7 +29,7 @@
           style="width: 80px; margin: 10px; cursor: pointer;" />
       </div>
     </Popup> -->
- <!-- Popup component for random images -->
+    <!-- Popup component for random images -->
     <!-- <Popup :visible="showRandomPopup" title="Choose a Random IMages" @close="showRandomPopup = false">
       <div class="sticker-list">
         <img v-for="random in randoms" :key="random.id" :src="random.url" @click="addRandom(random.url)"
@@ -33,7 +37,7 @@
       </div>
     </Popup> -->
 
-    
+
   </div>
 </template>
 
@@ -44,6 +48,14 @@ export default {
   props: {
     canvas: Object,
     clipRect: Object,
+    canUndo: {
+      type: Boolean,
+      default: false,
+    },
+    canRedo: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     Popup
@@ -66,6 +78,13 @@ export default {
   //   };
   // },
   methods: {
+    handleUndo() {
+      this.$emit('undo');
+    },
+    handleRedo() {
+      this.$emit('redo');
+    },
+   
     addShape(type) {
       if (!this.clipRect) {
         console.warn("Clip area not ready yet");
@@ -232,7 +251,7 @@ export default {
       this.clipRect.visible = true;
       this.canvas.renderAll();
     },
-    
+
     //add Sticker
     // addSticker(url) {
     //   if (!this.clipRect) {
